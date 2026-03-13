@@ -27,13 +27,13 @@ export const getAllUsers = async (page, limit) => {
 
 export const deleteUserById = async (id) => {
   return await prisma.user.delete({
-    where: { id: parseInt(id) },
+    where: {id},
   });
 };
 
 export const updateUserInfo = async (id, data) => {
   return await prisma.user.update({
-    where: { id: parseInt(id) },
+    where: {id},
     data,
     select: { id: true, email: true, name: true, role: true },
   });

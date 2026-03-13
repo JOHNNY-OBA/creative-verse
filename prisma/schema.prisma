@@ -12,6 +12,7 @@ model User {
   password  String   // hashed with argon2
   name      String
   status    String   @default("active") // active, suspended
+  role      String   @default("user")
   createdAt DateTime @default(now())
 }
 enum Role {

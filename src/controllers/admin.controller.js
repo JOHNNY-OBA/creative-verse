@@ -3,7 +3,8 @@ import 'dotenv/config';
 import argon2 from "argon2";
 import { z } from "zod";
 import { prisma } from "../lib/db.js";
-
+import { getAllUsers, deleteUserById, updateUserInfo } 
+from "../services/admin.service.js"; 
 
 // ─── Schemas ───────────────────────────────────────────────────────────────
 
