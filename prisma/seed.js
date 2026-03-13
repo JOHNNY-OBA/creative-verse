@@ -12,7 +12,7 @@ const prisma = new PrismaClient({
   log: [],
 });  
 
-// Guard: fail loudly if JWT_SECRET is missing — never fall back to a weak default
+
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not set in .env — cannot seed admin safely.");
@@ -22,10 +22,10 @@ async function main() {
   const adminEmail = 'admin@example.com';
   const adminPassword = 'yes@2021.password';
 
-  // Hash the password
+  
   const hashedPassword = await argon2.hash(adminPassword);
 
-  // Upsert admin (create if not exists, skip if already exists)
+  
   const admin = await prisma.admin.upsert({
     where: { email: adminEmail },
     update: {},
@@ -36,7 +36,7 @@ async function main() {
     },
   });
 
-  // Generate JWT token using the same secret the middleware will use
+  
   const token = jwt.sign(
     { id: admin.id, email: admin.email },
     JWT_SECRET,
@@ -47,7 +47,8 @@ async function main() {
   console.log('Admin details:');
   console.log({
     email: admin.email,
-    password: adminPassword, // plaintext shown for local testing only
+    password: adminPassword, 
+    
     createdAt: admin.createdAt,
   });
   console.log('\nJWT token (use this for auth):');

@@ -6,7 +6,7 @@ import { prisma } from "../lib/db.js";
 import { getAllUsers, deleteUserById, updateUserInfo } 
 from "../services/admin.service.js"; 
 
-// ─── Schemas ───────────────────────────────────────────────────────────────
+
 
 const adminLoginSchema = z.object({
   email: z.string().email(),
@@ -18,7 +18,7 @@ const updateUserSchema = z.object({
   email: z.string().email().optional(),
 });
 
-// ─── Controllers ───────────────────────────────────────────────────────────
+
 
 export const adminLogin = async (req, res) => {
   try {
@@ -35,7 +35,7 @@ export const adminLogin = async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Guard: ensure JWT_SECRET is set before signing
+    
     if (!process.env.JWT_SECRET) {
       console.error("JWT_SECRET is not set in environment variables");
       return res.status(500).json({ error: "Server misconfiguration" });
@@ -63,7 +63,7 @@ export const getUsers = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    // Use service layer — includes pagination meta & field selection
+    
     const result = await getAllUsers(page, limit);
 
     res.json(result);
@@ -77,7 +77,7 @@ export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Use service layer — handles parseInt(id) correctly
+    
     await deleteUserById(id);
 
     res.json({ message: "User deleted successfully" });
@@ -91,10 +91,9 @@ export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate body — only allow safe fields, never role/password
+    
     const data = updateUserSchema.parse(req.body);
 
-    // Use service layer — handles parseInt(id) correctly
     const updated = await updateUserInfo(id, data);
 
     res.json(updated);
